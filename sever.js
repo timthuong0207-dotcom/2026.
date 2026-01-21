@@ -21,3 +21,7 @@ app.post('/api/newyear', (req, res) => {
 app.listen(port, () => {
     console.log(`Server chạy tại http://localhost:${port}`);
 });
+app.get('/', (req, res) => {
+  res.send('Server đang chạy trên Render!');
+});
+
