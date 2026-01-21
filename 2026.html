@@ -1,694 +1,235 @@
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tết 2026 • Chúc mừng năm mới</title>
-    <style>
-        :root {
-            --gold: #ffd86b;
-            --deep-red: #9b0000;
-            --dark: #000;
-        }
+  <meta charset="UTF-8">
+  <title>Chương trình Năm Mới 2026 🎉</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Arial', sans-serif;
+    }
+    .stage {
+      display: none;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0; left: 0;
+      text-align: center;
+      color: white;
+    }
+    .stage.active { display: block; }
 
-        * {
-            box-sizing: border-box
-        }
+    /* Stage 1 */
+    #stage1 {
+      background: black;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    #stage1 h1 {
+      font-size: 2em;
+      color: yellow;
+      text-shadow: 0 0 10px gold, 0 0 20px orange;
+      margin-bottom: 20px;
+    }
+    #nameInput {
+      padding: 10px;
+      border: 2px solid yellow;
+      border-radius: 5px;
+      font-size: 1em;
+      animation: glow 1.5s infinite alternate;
+    }
+    @keyframes glow {
+      from { box-shadow: 0 0 5px yellow; }
+      to { box-shadow: 0 0 20px gold; }
+    }
+    #startBtn {
+      margin-top: 15px;
+      padding: 10px 20px;
+      background: gold;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
 
-        body {
-            margin: 0;
-            background: #000;
-            color: #fff;
-            font-family: 'Segoe UI', Arial, sans-serif;
-            overflow: hidden
-        }
+    /* Stage 2 */
+    #stage2 {
+      background: black;
+      color: white;
+      padding-top: 50px;
+    }
+    #stage2 h2 {
+      font-size: 2em;
+      text-shadow: 0 0 10px cyan, 0 0 20px blue;
+      margin: 20px;
+    }
+    #goalInput {
+      padding: 10px;
+      border: 2px solid cyan;
+      border-radius: 5px;
+      font-size: 1em;
+    }
+    #goalBtn {
+      margin-top: 15px;
+      padding: 10px 20px;
+      background: cyan;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .envelope {
+      width: 200px;
+      height: 120px;
+      background: white;
+      margin: 20px auto;
+      position: relative;
+      display: none;
+      animation: fly 5s forwards;
+    }
+    @keyframes fly {
+      0% { transform: translateY(0) rotate(0); opacity: 1; }
+      50% { transform: translate(200px, -200px) rotate(45deg); }
+      100% { transform: translate(600px, -400px) rotate(90deg); opacity: 0; }
+    }
 
-        .stage {
-            position: fixed;
-            inset: 0;
-            display: none
-        }
-
-        .stage.active {
-            display: block
-        }
-
-        h1,
-        h2,
-        p {
-            margin: 0
-        }
-
-        /* Shared glow text */
-        .glow {
-            color: var(--gold);
-            text-shadow: 0 0 10px var(--gold), 0 0 24px rgba(255, 216, 107, .6);
-            animation: glowPulse 2s ease-in-out infinite alternate;
-        }
-
-        @keyframes glowPulse {
-            from {
-                filter: brightness(1)
-            }
-
-            to {
-                filter: brightness(1.2)
-            }
-        }
-
-        /* Buttons & inputs */
-        .row {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 12px
-        }
-
-        input[type="text"] {
-            width: min(520px, 86vw);
-            padding: 12px 14px;
-            border-radius: 12px;
-            border: 1px solid #444;
-            background: #0b0b0b;
-            color: #fff;
-            outline: none;
-            box-shadow: 0 0 0 0 rgba(255, 216, 107, 0);
-            transition: box-shadow .25s, border-color .25s;
-        }
-
-        input[type="text"]::placeholder {
-            color: #aaa
-        }
-
-        input[type="text"]:focus {
-            border-color: var(--gold);
-            box-shadow: 0 0 18px rgba(255, 216, 107, .35);
-        }
-
-        .btn {
-            padding: 12px 18px;
-            border: none;
-            border-radius: 12px;
-            background: var(--gold);
-            color: #4b2a00;
-            font-weight: 800;
-            cursor: pointer;
-            box-shadow: 0 10px 22px rgba(0, 0, 0, .35);
-            transition: transform .15s, filter .2s;
-        }
-
-        .btn:hover {
-            filter: brightness(1.08)
-        }
-
-        .btn:active {
-            transform: scale(.98)
-        }
-
-        .btn-outline {
-            background: transparent;
-            color: #fff;
-            border: 2px solid #fff;
-        }
-
-        /* Stage 1: black background + prompt */
-        #stage1 {
-            background: #000;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 24px
-        }
-
-        #s1-title {
-            font-size: 42px;
-            margin-bottom: 12px
-        }
-
-        #s1-sub {
-            font-size: 22px;
-            color: #ddd;
-            margin-bottom: 28px
-        }
-
-        #s1-form {
-            margin-top: 18px
-        }
-
-        #s1-tip {
-            margin-top: 14px;
-            color: #bbb
-        }
-
-        /* Stage 2: black background + sequential text + fireworks */
-        #stage2 {
-            background: #000;
-            color: #fff;
-            text-align: center
-        }
-
-        .line {
-            opacity: 0;
-            transition: opacity 1s
-        }
-
-        .line.show {
-            opacity: 1
-        }
-
-        #goalWrap {
-            display: none;
-            margin-top: 26px
-        }
-
-        #paper {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            width: min(640px, 92vw);
-            background: #fff;
-            color: #222;
-            padding: 18px 20px;
-            border-radius: 12px;
-            box-shadow: 0 18px 40px rgba(0, 0, 0, .55);
-            opacity: 0;
-            transition: opacity .6s;
-            white-space: pre-line;
-        }
-
-        #paper.show {
-            opacity: 1
-        }
-
-        .envelope {
-            position: absolute;
-            left: 50%;
-            top: 60%;
-            transform: translate(-50%, -50%);
-            width: 320px;
-            height: 210px;
-            border-radius: 14px;
-            background: linear-gradient(135deg, #f7f7f7, #e7e7e7);
-            border: 3px solid #ddd;
-            box-shadow: 0 18px 40px rgba(0, 0, 0, .55);
-            opacity: 0;
-            transition: opacity .6s;
-            overflow: hidden;
-        }
-
-        .envelope.show {
-            opacity: 1
-        }
-
-        .seal {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            width: 72px;
-            height: 72px;
-            border-radius: 50%;
-            background: var(--gold);
-            color: #5a2c00;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 900;
-            border: 2px solid #fff4;
-        }
-
-        .spark {
-            position: absolute;
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: rgba(255, 216, 107, .9);
-            box-shadow: 0 0 10px rgba(255, 216, 107, .8);
-            animation: sparkFall 1.6s linear forwards;
-            z-index: 3;
-        }
-
-        @keyframes sparkFall {
-            0% {
-                transform: translateY(0);
-                opacity: 1
-            }
-
-            100% {
-                transform: translateY(160px);
-                opacity: 0
-            }
-        }
-
-        .fly {
-            animation: flyPath 2.8s ease-in-out forwards;
-        }
-
-        @keyframes flyPath {
-            0% {
-                transform: translate(-50%, -50%) rotate(0)
-            }
-
-            30% {
-                transform: translate(-10%, -70%) rotate(12deg)
-            }
-
-            60% {
-                transform: translate(30%, -20%) rotate(-10deg)
-            }
-
-            100% {
-                transform: translate(120%, -120%) rotate(0);
-                opacity: 0
-            }
-        }
-
-        canvas.fireworks {
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            z-index: 1
-        }
-
-        /* Stage 3: red gradient + falling lucky envelopes */
-        #stage3 {
-            background: linear-gradient(to top, #7a0000 0%, #9b0000 40%, #b80000 70%, #d40000 100%);
-            color: #fff;
-            text-align: center;
-            overflow: hidden;
-        }
-
-        .promptBox {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            bottom: 10vh;
-            z-index: 4
-        }
-
-        .lx {
-            position: absolute;
-            top: -140px;
-            width: 100px;
-            height: 152px;
-            border-radius: 12px;
-            background: linear-gradient(160deg, #d10a20, #7b0010);
-            border: 2px solid var(--gold);
-            box-shadow: 0 10px 18px rgba(0, 0, 0, .45);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 2;
-            /* behind opened panel later */
-            will-change: transform, top, left;
-        }
-
-        .lx::before {
-            content: "";
-            position: absolute;
-            top: 18px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 64px;
-            height: 64px;
-            border-radius: 50%;
-            background: rgba(255, 216, 107, .15);
-            border: 2px solid rgba(255, 216, 107, .5);
-        }
-
-        .opened {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: min(420px, 92vw);
-            padding: 18px;
-            border-radius: 14px;
-            background: linear-gradient(135deg, #e11, #a10718);
-            border: 3px solid var(--gold);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, .6);
-            display: none;
-            color: #fff;
-            z-index: 5;
-            /* above falling envelopes */
-        }
-
-        .opened.show {
-            display: block
-        }
-
-        .card {
-            width: 260px;
-            height: 160px;
-            background: #fff;
-            border-radius: 10px;
-            margin: 12px auto;
-            box-shadow: 0 8px 18px rgba(0, 0, 0, .35);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 900;
-            font-size: 42px;
-            color: #ffd86b;
-            text-shadow: 0 0 12px #ffd86b, 0 0 24px rgba(255, 216, 107, .7);
-        }
-
-        .title3 {
-            position: absolute;
-            top: 8vh;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 64px;
-            font-weight: 900;
-            color: #ffe387;
-            text-shadow: 0 0 16px rgba(255, 206, 84, .7), 0 16px 32px rgba(0, 0, 0, .45);
-            z-index: 3;
-        }
-    </style>
+    /* Stage 3 */
+    #stage3 {
+      background: linear-gradient(to top, darkred, red);
+      overflow: hidden;
+    }
+    .lixi {
+      width: 50px;
+      height: 80px;
+      background: url('https://i.imgur.com/3ZQ3QfM.png') no-repeat center/cover;
+      position: absolute;
+      top: -100px;
+      cursor: pointer;
+    }
+    #stage3 h2 {
+      color: white;
+      text-shadow: 0 0 10px yellow, 0 0 20px orange;
+      margin-top: 20px;
+    }
+    #stage3 button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: gold;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    #resultPaper {
+      width: 200px;
+      height: 100px;
+      background: white;
+      margin: 50px auto;
+      display: none;
+      text-align: center;
+      line-height: 100px;
+      font-size: 2em;
+      font-weight: bold;
+    }
+  </style>
 </head>
-
 <body>
+  <!-- Stage 1 -->
+  <div id="stage1" class="stage active">
+    <h1>Hãy điền tên của bạn vào ô dưới<br>để bắt đầu chương trình</h1>
+    <input id="nameInput" type="text" placeholder="Nhập tên...">
+    <button id="startBtn">Gửi</button>
+  </div>
 
-    <!-- Stage 1 -->
-    <section id="stage1" class="stage active">
-        <h1 id="s1-title" class="glow">Hãy điền tên của bạn vào ô dưới</h1>
-        <p id="s1-sub">để bắt đầu chương trình</p>
-        <form id="s1-form" autocomplete="off">
-            <div class="row" style="margin-top:18px">
-                <input id="nameInput" type="text" placeholder="Tên của bạn" required />
-                <button id="nameBtn" class="btn" type="submit">Gửi</button>
-            </div>
-            <p id="s1-tip">Bạn có thể nhấn Enter hoặc nút Gửi</p>
-        </form>
-    </section>
+  <!-- Stage 2 -->
+  <div id="stage2" class="stage">
+    <h2 id="welcomeText"></h2>
+    <h2 id="goalText"></h2>
+    <input id="goalInput" type="text" placeholder="Nhập mục tiêu...">
+    <button id="goalBtn">Gửi mục tiêu</button>
+    <div class="envelope" id="envelope"></div>
+  </div>
 
-    <!-- Stage 2 -->
-    <section id="stage2" class="stage">
-        <canvas id="fw2a" class="fireworks"></canvas>
-        <div
-            style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px">
-            <h1 id="l1" class="glow line" style="font-size:48px">Chào Mừng 2026 Đã Đến Đây !</h1>
-            <h2 id="l2" class="glow line" style="font-size:36px">Năm mới đã đến rồi !</h2>
-            <p id="l3" class="line" style="font-size:22px;color:#ddd">bây giờ mọi chuyện buồn đã ở quá khứ rồi</p>
-            <p id="l4" class="line" style="font-size:22px;color:#ddd"></p>
-            <div id="goalWrap">
-                <div class="row">
-                    <input id="goalInput" type="text" placeholder="Nhập mục tiêu năm 2026" />
-                    <button id="goalBtn" class="btn" type="button">Gửi</button>
-                </div>
-            </div>
-        </div>
-        <div id="paper">
-            <h3 style="margin-bottom:8px">Tờ giấy mục tiêu</h3>
-            <p id="paperText"></p>
-        </div>
-        <div id="envelope" class="envelope">
-            <div class="seal">福</div>
-        </div>
-    </section>
+  <!-- Stage 3 -->
+  <div id="stage3" class="stage">
+    <h2 id="stage3Text">Thấy những bao lì xì đang rơi hong ?</h2>
+    <button id="yesBtn">Có</button>
+    <h2 id="chooseText" style="display:none;">Bấm vào 1 bao lì xì ngẫu nhiên sẽ có bất ngờ</h2>
+    <button id="okBtn" style="display:none;">OK</button>
+    <div id="resultPaper"></div>
+    <h2 id="thanksText" style="display:none;">Cảm Ơn Đã Tham Gia Nhaaa !</h2>
+  </div>
 
-    <!-- Stage 3 -->
-    <section id="stage3" class="stage">
-        <canvas id="fw3" class="fireworks"></canvas>
-        <h1 class="title3">Tết 2026</h1>
-        <div id="promptBox" class="promptBox">
-            <p id="p1" class="glow" style="font-size:24px;margin-bottom:12px">Thấy những bao lì xì đang rơi hong ?</p>
-            <button id="btnYes" class="btn">Có</button>
-            <p id="p2" class="glow" style="font-size:22px;margin-top:12px;display:none">bấm vào 1 bao lì xì ngẫu nhiên
-                sẽ có bất ngờ</p>
-            <button id="btnOk" class="btn btn-outline" style="display:none">OK</button>
-        </div>
-        <div id="opened" class="opened">
-            <h3 style="margin:0 0 8px 0">Bao lì xì bạn chọn</h3>
-            <div class="card" id="cardNum">--</div>
-            <p style="margin-top:8px">Cảm Ơn Đã Tham Gia Nhaaa !</p>
-        </div>
-    </section>
+  <script>
+    let userName = "";
+    let userGoal = "";
+    let chosenLixi = "";
 
-    <script>
-        const userData = { name: "", goal: "", lucky: "" };
+    // Stage 1
+    document.getElementById('startBtn').addEventListener('click', () => {
+      userName = document.getElementById('nameInput').value.trim();
+      if(userName){
+        document.getElementById('stage1').classList.remove('active');
+        document.getElementById('stage2').classList.add('active');
+        showStage2Text();
+      }
+    });
 
-        /* ===== Stage 1: name input ===== */
-        const s1Form = document.getElementById('s1-form');
-        const nameInput = document.getElementById('nameInput');
-        s1Form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const name = nameInput.value.trim();
-            if (!name) return;
-            userData.name = name;
-            goStage(2);
-            startStage2();
-        });
-
-        /* ===== Stage 2: sequential lines, fireworks, envelope fly ===== */
-        function startStage2() {
-            startFireworks(document.getElementById('fw2a'));
-            setTimeout(() => document.getElementById('l1').classList.add('show'), 600);
-            setTimeout(() => document.getElementById('l2').classList.add('show'), 2000);
-            setTimeout(() => document.getElementById('l3').classList.add('show'), 3400);
-            setTimeout(() => {
-                const l4 = document.getElementById('l4');
-                l4.textContent = `hãy bắt đầu năm mới bằng việc đặt cho bản thân 1 mục tiêu mà ${userData.name} sẽ cố gắng hoàn thành trong năm 2026 !`;
-                l4.classList.add('show');
-            }, 4800);
-            setTimeout(() => {
-                document.getElementById('goalWrap').style.display = 'block';
-            }, 6200);
+    // Stage 2 text effect
+    function showStage2Text(){
+      const welcome = "Chào Mừng 2026 Đã Đến Đây !";
+      const goalMsg = `Năm mới đã đến rồi !\nBây giờ mọi chuyện buồn đã ở quá khứ rồi\nHãy bắt đầu năm mới bằng việc đặt cho bản thân 1 mục tiêu mà ${userName} sẽ cố gắng hoàn thành trong năm 2026 !`;
+      let i=0;
+      const interval = setInterval(()=>{
+        document.getElementById('welcomeText').textContent = welcome.slice(0,i);
+        i++;
+        if(i>welcome.length){
+          clearInterval(interval);
+          setTimeout(()=>{document.getElementById('goalText').textContent = goalMsg;},2000);
         }
+      },100);
+    }
 
-        document.getElementById('goalBtn').addEventListener('click', submitGoal);
-        document.getElementById('goalInput').addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') { e.preventDefault(); submitGoal(); }
-        });
+    // Stage 2 goal submit
+    document.getElementById('goalBtn').addEventListener('click', () => {
+      userGoal = document.getElementById('goalInput').value.trim();
+      if(userGoal){
+        const envelope = document.getElementById('envelope');
+        envelope.style.display = 'block';
+        setTimeout(()=>{
+          document.getElementById('stage2').classList.remove('active');
+          document.getElementById('stage3').classList.add('active');
+          startLixiRain();
+        },5000);
+      }
+    });
 
-        function submitGoal() {
-            const goal = document.getElementById('goalInput').value.trim();
-            if (!goal) return;
-            userData.goal = goal;
+    // Stage 3
+    document.getElementById('yesBtn').addEventListener('click', () => {
+      document.getElementById('yesBtn').style.display = 'none';
+      document.getElementById('stage3Text').style.display = 'none';
+      document.getElementById('chooseText').style.display = 'block';
+      document.getElementById('okBtn').style.display = 'block';
+    });
 
-            // show paper
-            const paper = document.getElementById('paper');
-            document.getElementById('paperText').textContent = `Tên: ${userData.name}\nMục tiêu 2026: ${userData.goal}`;
-            paper.classList.add('show');
+    document.getElementById('okBtn').addEventListener('click', () => {
+      document.getElementById('chooseText').style.display = 'none';
+      document.getElementById('okBtn').style.display = 'none';
+    });
 
-            // show envelope + sparkle trail
-            setTimeout(() => {
-                const env = document.getElementById('envelope');
-                env.classList.add('show');
-                paper.style.opacity = 0;
-
-                const sparkleTimer = setInterval(() => spawnSparkle(env), 160);
-
-                setTimeout(() => {
-                    env.classList.add('fly');
-                    setTimeout(() => {
-                        clearInterval(sparkleTimer);
-                        goStage(3);
-                        startStage3();
-                    }, 2800);
-                }, 600);
-            }, 700);
-        }
-
-        function spawnSparkle(env) {
-            const rect = env.getBoundingClientRect();
-            const s = document.createElement('div');
-            s.className = 'spark';
-            s.style.left = (rect.left + rect.width / 2 + (Math.random() * 40 - 20)) + 'px';
-            s.style.top = (rect.top + rect.height / 2) + 'px';
-            document.body.appendChild(s);
-            setTimeout(() => s.remove(), 1600);
-        }
-
-        /* ===== Stage 3: falling lucky envelopes (smooth, non-jitter, non-overlap) ===== */
-        let selectionLocked = false;
-        let clickEnabled = false;
-
-        function startStage3() {
-            startFireworks(document.getElementById('fw3'));
-            setupPromptFlow();
-            spawnLuckyEnvelopesSmooth(20);
-        }
-
-        function setupPromptFlow() {
-            const p1 = document.getElementById('p1');
-            const btnYes = document.getElementById('btnYes');
-            const p2 = document.getElementById('p2');
-            const btnOk = document.getElementById('btnOk');
-
-            btnYes.onclick = () => {
-                p1.style.display = 'none';
-                btnYes.style.display = 'none';
-                p2.style.display = 'block';
-                btnOk.style.display = 'inline-block';
-            };
-            btnOk.onclick = () => {
-                p2.style.display = 'none';
-                btnOk.style.display = 'none';
-                clickEnabled = true; // user can click any falling envelope now
-            };
-        }
-
-        // Smooth falling via requestAnimationFrame, with non-overlap <=10% area
-        function spawnLuckyEnvelopesSmooth(n) {
-            const stage3 = document.getElementById('stage3');
-            const W = window.innerWidth;
-            const H = window.innerHeight;
-            const EW = 100, EH = 152;
-
-            // random order like 19 -> 13 -> ...
-            const order = Array.from({ length: n }, (_, i) => i + 1).sort(() => Math.random() - 0.5);
-
-            const items = [];
-            for (let idx = 0; idx < n; idx++) {
-                const num = order[idx];
-                const el = document.createElement('div');
-                el.className = 'lx';
-                el.dataset.name = String(num);
-                el.style.zIndex = 2;
-
-                // initial placement: spread top offsets to create staggered start (no jitter)
-                const startY = - (idx * (EH + 20)) - Math.random() * 80;
-
-                // choose non-overlapping X at start
-                const x = chooseNonOverlapX(items, EW, W);
-
-                const speed = 0.8 + Math.random() * 1.2; // relatively slow
-                items.push({ el, x, y: startY, speed });
-
-                el.style.left = x + 'px';
-                el.style.top = startY + 'px';
-
-                el.onclick = () => {
-                    if (selectionLocked || !clickEnabled) return;
-                    selectionLocked = true;
-                    userData.lucky = el.dataset.name;
-                    showOpened(userData.lucky);
-                    sendToServer(); // silent send
-                    // push all falling envelopes behind the opened panel
-                    items.forEach(it => it.el.style.zIndex = 2);
-                };
-
-                stage3.appendChild(el);
-            }
-
-            // animation loop
-            function loop() {
-                for (const it of items) {
-                    it.y += it.speed;
-                    if (it.y > H) {
-                        // reset to top with new non-overlap X
-                        it.y = -EH - Math.random() * 120;
-                        it.x = chooseNonOverlapX(items, EW, W);
-                        it.el.style.left = it.x + 'px';
-                    }
-                    it.el.style.top = it.y + 'px';
-                }
-                requestAnimationFrame(loop);
-            }
-            loop();
-
-            // helper: choose X that doesn't overlap >10% with others currently near top band
-            function chooseNonOverlapX(existing, ew, width, maxTries = 80) {
-                let tries = 0;
-                while (tries++ < maxTries) {
-                    const x = Math.floor(Math.random() * (width - (ew + 20)));
-                    const rectA = { x, y: -140, w: ew, h: EH };
-                    let ok = true;
-                    for (const it of existing) {
-                        // only check those near top to avoid heavy calc
-                        if (it.y < 40) {
-                            const rectB = { x: it.x, y: it.y, w: ew, h: EH };
-                            const overlapW = Math.max(0, Math.min(rectA.x + rectA.w, rectB.x + rectB.w) - Math.max(rectA.x, rectB.x));
-                            const overlapH = Math.max(0, Math.min(rectA.y + rectA.h, rectB.y + rectB.h) - Math.max(rectA.y, rectB.y));
-                            const overlapArea = overlapW * overlapH;
-                            const areaA = rectA.w * rectA.h;
-                            if (overlapArea > areaA * 0.10) { ok = false; break; }
-                        }
-                    }
-                    if (ok) return x;
-                }
-                // fallback
-                return Math.floor(Math.random() * (width - (ew + 20)));
-            }
-        }
-
-        function showOpened(num) {
-            const opened = document.getElementById('opened');
-            const card = document.getElementById('cardNum');
-            card.textContent = num;
-            opened.classList.add('show');
-        }
-
-        /* ===== Fireworks (simple colorful particles) ===== */
-        function startFireworks(canvas) {
-            const ctx = canvas.getContext('2d');
-            function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-            resize(); window.addEventListener('resize', resize);
-            let particles = [];
-            function Particle(x, y, color) {
-                this.x = x; this.y = y; this.color = color;
-                this.r = 2 + Math.random() * 2;
-                this.vx = (Math.random() - 0.5) * 6;
-                this.vy = (Math.random() - 0.5) * 6;
-                this.alpha = 1;
-            }
-            Particle.prototype.update = function () {
-                this.x += this.vx; this.y += this.vy; this.alpha -= 0.015;
-            };
-            Particle.prototype.draw = function () {
-                ctx.globalAlpha = this.alpha;
-                ctx.beginPath(); ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2); ctx.fillStyle = this.color; ctx.fill();
-                ctx.globalAlpha = 1;
-            };
-            function burst() {
-                const x = Math.random() * canvas.width;
-                const y = Math.random() * canvas.height * 0.6;
-                const base = Math.random() * 360;
-                for (let i = 0; i < 60; i++) {
-                    const color = `hsl(${(base + i) % 360},100%,55%)`;
-                    particles.push(new Particle(x, y, color));
-                }
-            }
-            function loop() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                if (Math.random() < 0.06) burst();
-                particles = particles.filter(p => p.alpha > 0);
-                particles.forEach(p => { p.update(); p.draw(); });
-                requestAnimationFrame(loop);
-            }
-            loop();
-        }
-
-        /* ===== Stage switching ===== */
-        function goStage(n) {
-            document.querySelectorAll('.stage').forEach(s => s.classList.remove('active'));
-            document.getElementById('stage' + n).classList.add('active');
-        }
-
-        /* ===== Send data to server (silent) ===== */
-        async function sendToServer() {
-            try {
-                await fetch('/api/newyear', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        name: userData.name,
-                        goal: userData.goal,
-                        lucky: userData.lucky
-                    })
-                });
-                // silent: no alerts, no UI changes
-            } catch (err) {
-                console.warn('Send failed', err);
-            }
-        }
-    </script>
-</body>
-
-</html>
+    function startLixiRain(){
+      const stage3 = document.getElementById('stage3');
+      for(let i=1;i<=20;i++){
+        const lixi = document.createElement('div');
+        lixi.className
