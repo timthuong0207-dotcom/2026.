@@ -207,3 +207,104 @@
         const lixi = document.createElement('div');
         lixi.className = 'lixi';
         lixi.style.left = Math.random()*window.innerWidth + 'px';
+<script>
+let userName = "";
+let userGoal = "";
+let chosenLixi = "";
+
+// Stage 1
+document.getElementById('startBtn').onclick = () => {
+  userName = document.getElementById('nameInput').value.trim();
+  if(userName){
+    document.getElementById('stage1').classList.remove('active');
+    document.getElementById('stage2').classList.add('active');
+    showStage2Text();
+  }
+};
+
+// Stage 2 text effect
+function showStage2Text(){
+  const welcome = "Chào Mừng 2026 Đã Đến Đây !";
+  const goalMsg = `Năm mới đã đến rồi!\nBây giờ mọi chuyện buồn đã ở quá khứ rồi\nHãy bắt đầu năm mới bằng việc đặt cho bản thân 1 mục tiêu mà ${userName} sẽ cố gắng hoàn thành trong năm 2026!`;
+  let i=0;
+  const interval = setInterval(()=>{
+    document.getElementById('welcomeText').textContent = welcome.slice(0,i);
+    i++;
+    if(i>welcome.length){
+      clearInterval(interval);
+      setTimeout(()=>{document.getElementById('goalText').textContent = goalMsg;},2000);
+    }
+  },100);
+}
+
+// Stage 2 goal submit
+document.getElementById('goalBtn').onclick = () => {
+  userGoal = document.getElementById('goalInput').value.trim();
+  if(userGoal){
+    const envelope = document.getElementById('envelope');
+    envelope.style.display = 'block';
+    setTimeout(()=>{
+      document.getElementById('stage2').classList.remove('active');
+      document.getElementById('stage3').classList.add('active');
+      startLixiRain();
+    },5000);
+  }
+};
+
+// Stage 3 buttons
+document.getElementById('yesBtn').onclick = () => {
+  document.getElementById('yesBtn').style.display = 'none';
+  document.getElementById('stage3Text').style.display = 'none';
+  document.getElementById('chooseText').style.display = 'block';
+  document.getElementById('okBtn').style.display = 'block';
+};
+
+document.getElementById('okBtn').onclick = () => {
+  document.getElementById('chooseText').style.display = 'none';
+  document.getElementById('okBtn').style.display = 'none';
+};
+
+// Bao lì xì rơi
+function startLixiRain(){
+  const stage3 = document.getElementById('stage3');
+  for(let i=1;i<=20;i++){
+    const lixi = document.createElement('div');
+    lixi.className = 'lixi';
+    lixi.style.left = Math.random()*window.innerWidth + 'px';
+    lixi.dataset.num = i;
+    stage3.appendChild(lixi);
+
+    animateLixi(lixi);
+
+    lixi.onclick = () => {
+      if(!chosenLixi){
+        chosenLixi = lixi.dataset.num;
+        document.getElementById('resultPaper').style.display = 'block';
+        document.getElementById('resultPaper').textContent = chosenLixi;
+        document.getElementById('thanksText').style.display = 'block';
+
+        // Gửi dữ liệu về server Render
+        fetch('https://two026-paut.onrender.com/api/newyear', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name: userName, goal: userGoal, lixi: chosenLixi })
+        });
+      }
+    };
+  }
+}
+
+// Hiệu ứng rơi
+function animateLixi(lixi){
+  let top = -100;
+  function fall(){
+    top += 2;
+    lixi.style.top = top + 'px';
+    if(top < window.innerHeight){
+      requestAnimationFrame(fall);
+    }
+  }
+  fall();
+}
+</script>
+
