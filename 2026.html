@@ -1,1 +1,168 @@
-<p>Hi</p></p>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Chương trình Năm Mới 2026 🎉</title>
+  <style>
+    body, html {
+      margin: 0; padding: 0;
+      width: 100%; height: 100%;
+      font-family: 'Arial', sans-serif;
+      overflow: hidden;
+    }
+    .stage {
+      display: none;
+      width: 100%; height: 100%;
+      position: absolute;
+      top: 0; left: 0;
+      text-align: center;
+    }
+    .stage.active { display: block; }
+
+    /* Stage 1 */
+    #stage1 {
+      background: black;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+      color: yellow;
+    }
+    #stage1 h1 {
+      font-size: 2em;
+      text-shadow: 0 0 10px gold, 0 0 20px orange;
+      margin-bottom: 20px;
+      animation: glowText 2s infinite alternate;
+    }
+    @keyframes glowText {
+      from { text-shadow: 0 0 10px gold; }
+      to { text-shadow: 0 0 30px orange; }
+    }
+    #nameInput {
+      padding: 10px; font-size: 1em;
+      border: 2px solid yellow; border-radius: 5px;
+      animation: glowBox 1.5s infinite alternate;
+    }
+    @keyframes glowBox {
+      from { box-shadow: 0 0 5px yellow; }
+      to { box-shadow: 0 0 20px gold; }
+    }
+    #startBtn {
+      margin-top: 15px; padding: 10px 20px;
+      background: gold; border: none; border-radius: 5px;
+      cursor: pointer; font-weight: bold;
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    /* Stage 2 */
+    #stage2 {
+      background: black; color: white;
+      padding-top: 50px;
+    }
+    #stage2 h2 {
+      font-size: 2em;
+      text-shadow: 0 0 10px cyan, 0 0 20px blue;
+      margin: 20px;
+    }
+    #goalInput {
+      padding: 10px; border: 2px solid cyan;
+      border-radius: 5px; font-size: 1em;
+    }
+    #goalBtn {
+      margin-top: 15px; padding: 10px 20px;
+      background: cyan; border: none; border-radius: 5px;
+      cursor: pointer; font-weight: bold;
+    }
+    .envelope {
+      width: 200px; height: 120px;
+      background: white; margin: 20px auto;
+      position: relative; display: none;
+      animation: fly 5s forwards;
+    }
+    @keyframes fly {
+      0% { transform: translateY(0) rotate(0); opacity: 1; }
+      50% { transform: translate(200px, -200px) rotate(45deg); }
+      100% { transform: translate(600px, -400px) rotate(90deg); opacity: 0; }
+    }
+
+    /* Stage 3 */
+    #stage3 {
+      background: linear-gradient(to top, darkred, red);
+      overflow: hidden; color: white;
+    }
+    .lixi {
+      width: 50px; height: 80px;
+      background: red; border: 2px solid gold;
+      border-radius: 5px;
+      position: absolute; top: -100px;
+      cursor: pointer;
+    }
+    #stage3 h2 {
+      text-shadow: 0 0 10px yellow, 0 0 20px orange;
+      margin-top: 20px;
+    }
+    #stage3 button {
+      margin-top: 20px; padding: 10px 20px;
+      background: gold; border: none; border-radius: 5px;
+      cursor: pointer; font-weight: bold;
+    }
+    #resultPaper {
+      width: 200px; height: 100px;
+      background: white; margin: 50px auto;
+      display: none; text-align: center;
+      line-height: 100px; font-size: 2em; font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <!-- Stage 1 -->
+  <div id="stage1" class="stage active">
+    <h1>Hãy điền tên của bạn vào ô dưới<br>để bắt đầu chương trình</h1>
+    <input id="nameInput" type="text" placeholder="Nhập tên...">
+    <button id="startBtn">Gửi</button>
+  </div>
+
+  <!-- Stage 2 -->
+  <div id="stage2" class="stage">
+    <h2 id="welcomeText"></h2>
+    <h2 id="goalText"></h2>
+    <input id="goalInput" type="text" placeholder="Nhập mục tiêu...">
+    <button id="goalBtn">Gửi mục tiêu</button>
+    <div class="envelope" id="envelope"></div>
+  </div>
+
+  <!-- Stage 3 -->
+  <div id="stage3" class="stage">
+    <h2 id="stage3Text">Thấy những bao lì xì đang rơi hong ?</h2>
+    <button id="yesBtn">Có</button>
+    <h2 id="chooseText" style="display:none;">Bấm vào 1 bao lì xì ngẫu nhiên sẽ có bất ngờ</h2>
+    <button id="okBtn" style="display:none;">OK</button>
+    <div id="resultPaper"></div>
+    <h2 id="thanksText" style="display:none;">Cảm Ơn Đã Tham Gia Nhaaa !</h2>
+  </div>
+
+  <script>
+    let userName = "";
+    let userGoal = "";
+    let chosenLixi = "";
+
+    // Stage 1
+    document.getElementById('startBtn').onclick = () => {
+      userName = document.getElementById('nameInput').value.trim();
+      if(userName){
+        document.getElementById('stage1').classList.remove('active');
+        document.getElementById('stage2').classList.add('active');
+        showStage2Text();
+      }
+    };
+
+    // Stage 2 text effect
+    function showStage2Text(){
+      const welcome = "Chào Mừng 2026 Đã Đến Đây !";
+      const goalMsg = `Năm mới đã đến rồi!\nBây giờ mọi chuyện buồn đã ở quá khứ rồi\nHãy bắt đầu năm mới bằng việc đặt cho bản thân 1 mục tiêu mà ${userName} sẽ cố gắng hoàn thành trong năm 2026!`;
+      let i=0;
+      const interval = setInterval(()=>{
+        document.getElementById('welcomeText').textContent = welcome.slice(
