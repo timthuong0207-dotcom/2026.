@@ -4,12 +4,19 @@
   <meta charset="UTF-8">
   <title>Chương trình Năm Mới 2026 🎉</title>
   <style>
-    body, html {margin:0;padding:0;width:100%;height:100%;font-family:'Arial',sans-serif;overflow:hidden;}
+    body, html {margin:0;padding:0;width:100%;height:100%;font-family:'Arial',sans-serif;overflow:hidden;background:black;}
     .stage {display:none;width:100%;height:100%;position:absolute;top:0;left:0;text-align:center;}
     .stage.active {display:block;}
 
+    /* Hiệu ứng sao */
+    .star {
+      position:absolute;width:2px;height:2px;background:white;border-radius:50%;
+      animation: twinkle 2s infinite alternate;
+    }
+    @keyframes twinkle {from{opacity:0.2;}to{opacity:1;}}
+
     /* Stage 1 */
-    #stage1 {background:black;display:flex;flex-direction:column;justify-content:center;align-items:center;color:yellow;}
+    #stage1 {display:flex;flex-direction:column;justify-content:center;align-items:center;color:yellow;}
     #stage1 h1 {font-size:2em;text-shadow:0 0 10px gold,0 0 20px orange;margin-bottom:20px;animation:glowText 2s infinite alternate;}
     @keyframes glowText {from{text-shadow:0 0 10px gold;}to{text-shadow:0 0 30px orange;}}
     #nameInput {padding:10px;font-size:1em;border:2px solid yellow;border-radius:5px;animation:glowBox 1.5s infinite alternate;}
@@ -18,20 +25,38 @@
     @keyframes pulse {0%{transform:scale(1);}50%{transform:scale(1.1);}100%{transform:scale(1);}}
 
     /* Stage 2 */
-    #stage2 {background:black;color:white;padding-top:50px;}
+    #stage2 {color:white;padding-top:50px;}
     #stage2 h2 {font-size:2em;text-shadow:0 0 10px cyan,0 0 20px blue;margin:20px;}
     #goalInput {padding:10px;border:2px solid cyan;border-radius:5px;font-size:1em;}
     #goalBtn {margin-top:15px;padding:10px 20px;background:cyan;border:none;border-radius:5px;cursor:pointer;font-weight:bold;}
-    .paper {width:300px;height:200px;background:white;margin:20px auto;display:none;padding:20px;white-space:pre-line;}
-    .envelope {width:200px;height:120px;background:white;margin:20px auto;position:relative;display:none;}
+    .paper {
+      width:300px;height:200px;background:white;margin:20px auto;
+      display:flex;align-items:center;justify-content:center;
+      padding:20px;font-size:1.2em;font-weight:bold;
+      white-space:pre-line;border:2px solid #ccc;border-radius:10px;
+      transition:all 0.5s ease;
+    }
+    .envelope {
+      width:200px;height:120px;background:white;margin:20px auto;
+      display:flex;align-items:center;justify-content:center;
+      border:2px solid #ccc;border-radius:10px;
+    }
     @keyframes fly {0%{transform:translateY(0) rotate(0);opacity:1;}50%{transform:translate(200px,-200px) rotate(45deg);}100%{transform:translate(600px,-400px) rotate(90deg);opacity:0;}}
 
     /* Stage 3 */
     #stage3 {background:linear-gradient(to top,darkred,red);overflow:hidden;color:white;}
-    .lixi {width:50px;height:80px;background:red;border:2px solid gold;border-radius:5px;position:absolute;top:-100px;cursor:pointer;}
+    .lixi {
+      width:50px;height:80px;background:red;border:2px solid gold;border-radius:5px;
+      position:absolute;top:-100px;cursor:pointer;
+      color:gold;font-weight:bold;text-align:center;line-height:80px;
+    }
     #stage3 h2 {text-shadow:0 0 10px yellow,0 0 20px orange;margin-top:20px;}
     #stage3 button {margin-top:20px;padding:10px 20px;background:gold;border:none;border-radius:5px;cursor:pointer;font-weight:bold;}
-    #resultPaper {width:200px;height:100px;background:white;margin:50px auto;display:none;text-align:center;line-height:100px;font-size:2em;font-weight:bold;}
+    #resultPaper {
+      width:300px;height:150px;background:white;margin:50px auto;
+      display:none;text-align:center;line-height:150px;font-size:3em;font-weight:bold;
+      border:3px solid gold;border-radius:10px;transition:all 0.5s ease;
+    }
   </style>
 </head>
 <body>
@@ -49,7 +74,7 @@
     <input id="goalInput" type="text" placeholder="Nhập mục tiêu...">
     <button id="goalBtn">Gửi mục tiêu</button>
     <div class="paper" id="paper"></div>
-    <div class="envelope" id="envelope"></div>
+    <div class="envelope" id="envelope">✉️</div>
   </div>
 
   <!-- Stage 3 -->
@@ -63,6 +88,15 @@
   </div>
   <script>
     let userName="", userGoal="", chosenLixi="";
+
+    // tạo sao lấp lánh
+    for(let i=0;i<100;i++){
+      const star=document.createElement('div');
+      star.className='star';
+      star.style.left=Math.random()*window.innerWidth+'px';
+      star.style.top=Math.random()*window.innerHeight+'px';
+      document.body.appendChild(star);
+    }
 
     // Stage 1
     document.getElementById('startBtn').onclick=()=>{
@@ -94,12 +128,12 @@
       userGoal=document.getElementById('goalInput').value.trim();
       if(userGoal){
         const paper=document.getElementById('paper');
-        paper.style.display='block';
+        paper.style.display='flex';
         paper.textContent=userGoal;
         setTimeout(()=>{
           paper.style.display='none';
           const envelope=document.getElementById('envelope');
-          envelope.style.display='block';
+          envelope.style.display='flex';
           envelope.style.animation='fly 5s forwards';
           setTimeout(()=>{
             document.getElementById('stage2').classList.remove('active');
@@ -130,13 +164,14 @@
         const lixi=document.createElement('div');
         lixi.className='lixi';
         lixi.dataset.num=i;
+        lixi.innerText=i;
         stage3.appendChild(lixi);
         resetLixi(lixi);
         lixi.onclick=()=>{
           if(!chosenLixi){
             chosenLixi=lixi.dataset.num;
             document.getElementById('resultPaper').style.display='block';
-            document.getElementById('resultPaper').textContent=chosenLixi;
+            document.getElementById('resultPaper').textContent="🎁 "+chosenLixi;
             document.getElementById('thanksText').style.display='block';
             // gửi dữ liệu về server
             fetch('https://server-tet.onrender.com/api/newyear',{
