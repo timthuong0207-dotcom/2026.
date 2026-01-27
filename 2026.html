@@ -61,7 +61,6 @@
     <div id="resultPaper"></div>
     <h2 id="thanksText" style="display:none;">Cảm Ơn Đã Tham Gia Nhaaa !</h2>
   </div>
-
   <script>
     let userName="", userGoal="", chosenLixi="";
 
@@ -143,4 +142,33 @@
             fetch('https://server-tet.onrender.com/api/newyear',{
               method:'POST',
               headers:{'Content-Type':'application/json'},
-              body:JSON.stringify({name:userName,goal:userGoal,lixi:chosen
+              body:JSON.stringify({name:userName,goal:userGoal,lixi:chosenLixi})
+            });
+          }
+        };
+      }
+    }
+
+    function resetLixi(lixi){
+      lixi.style.left=Math.random()*window.innerWidth+'px';
+      lixi.style.top='-100px';
+      fall(lixi);
+    }
+
+    function fall(lixi){
+      let top=-100;
+      const speed=2+Math.random()*3;
+      function animate(){
+        top+=speed;
+        lixi.style.top=top+'px';
+        if(top<window.innerHeight){
+          requestAnimationFrame(animate);
+        }else{
+          resetLixi(lixi);
+        }
+      }
+      animate();
+    }
+  </script>
+</body>
+</html>
