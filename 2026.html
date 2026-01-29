@@ -4,39 +4,89 @@
   <meta charset="UTF-8">
   <title>Chương trình Năm Mới 2026 🎉</title>
   <style>
-    body, html {margin:0;padding:0;width:100%;height:100%;font-family:'Arial',sans-serif;overflow:hidden;background:black;}
-    .stage {display:none;width:100%;height:100%;position:absolute;top:0;left:0;text-align:center;}
+    body, html {
+      margin:0; padding:0; width:100%; height:100%;
+      font-family:'Arial',sans-serif; overflow:hidden; background:black;
+    }
+    .stage {
+      display:none; width:100%; height:100%;
+      position:absolute; top:0; left:0; text-align:center;
+    }
     .stage.active {display:block;}
 
     /* Hiệu ứng sao */
-    .star {position:absolute;width:2px;height:2px;background:white;border-radius:50%;animation: twinkle 2s infinite alternate;}
+    .star {
+      position:absolute; width:2px; height:2px;
+      background:white; border-radius:50%;
+      animation: twinkle 2s infinite alternate;
+    }
     @keyframes twinkle {from{opacity:0.2;}to{opacity:1;}}
 
     /* Stage 1 */
-    #stage1 {display:flex;flex-direction:column;justify-content:center;align-items:center;color:yellow;}
-    #stage1 h1 {font-size:2em;text-shadow:0 0 10px gold,0 0 20px orange;margin-bottom:20px;animation:glowText 2s infinite alternate;}
+    #stage1 {
+      display:flex; flex-direction:column;
+      justify-content:center; align-items:center; color:yellow;
+    }
+    #stage1 h1 {
+      font-size:2em; text-shadow:0 0 10px gold,0 0 20px orange;
+      margin-bottom:20px; animation:glowText 2s infinite alternate;
+    }
     @keyframes glowText {from{text-shadow:0 0 10px gold;}to{text-shadow:0 0 30px orange;}}
-    #nameInput {padding:10px;font-size:1em;border:2px solid yellow;border-radius:5px;animation:glowBox 1.5s infinite alternate;}
+    #nameInput {
+      padding:10px; font-size:1em; border:2px solid yellow; border-radius:5px;
+      animation:glowBox 1.5s infinite alternate;
+    }
     @keyframes glowBox {from{box-shadow:0 0 5px yellow;}to{box-shadow:0 0 20px gold;}}
-    #startBtn {margin-top:15px;padding:10px 20px;background:gold;border:none;border-radius:5px;cursor:pointer;font-weight:bold;animation:pulse 1.5s infinite;}
+    #startBtn {
+      margin-top:15px; padding:10px 20px; background:gold; border:none; border-radius:5px;
+      cursor:pointer; font-weight:bold; animation:pulse 1.5s infinite;
+    }
     @keyframes pulse {0%{transform:scale(1);}50%{transform:scale(1.1);}100%{transform:scale(1);}}
 
     /* Stage 2 */
-    #stage2 {color:white;padding-top:50px;}
-    #stage2 h2 {font-size:2em;text-shadow:0 0 10px cyan,0 0 20px blue;margin:20px;}
-    #goalSection {margin-top:30px;display:none;}
-    #goalInput {padding:10px;border:2px solid cyan;border-radius:5px;font-size:1em;}
-    #goalBtn {margin-top:15px;padding:10px 20px;background:cyan;border:none;border-radius:5px;cursor:pointer;font-weight:bold;}
-    .paper {width:300px;height:200px;background:white;margin:20px auto;display:none;align-items:center;justify-content:center;padding:20px;font-size:1.2em;font-weight:bold;border:2px solid #ccc;border-radius:10px;transition:all 0.5s ease;}
-    .envelope {width:200px;height:120px;background:white;margin:20px auto;display:none;align-items:center;justify-content:center;border:2px solid #ccc;border-radius:10px;}
-    @keyframes fly {0%{transform:translateY(0) rotate(0);opacity:1;}50%{transform:translate(200px,-200px) rotate(45deg);}100%{transform:translate(600px,-400px) rotate(90deg);opacity:0;}}
+    #stage2 {color:white; padding-top:50px;}
+    #stage2 h2 {
+      font-size:2em; text-shadow:0 0 10px cyan,0 0 20px blue; margin:20px;
+    }
+    #goalSection {margin-top:30px; display:none;}
+    #goalInput {padding:10px; border:2px solid cyan; border-radius:5px; font-size:1em;}
+    #goalBtn {
+      margin-top:15px; padding:10px 20px; background:cyan; border:none; border-radius:5px;
+      cursor:pointer; font-weight:bold;
+    }
+    .paper {
+      width:300px; height:200px; background:white; margin:20px auto;
+      display:none; align-items:center; justify-content:center;
+      padding:20px; font-size:1.2em; font-weight:bold;
+      border:2px solid #ccc; border-radius:10px; transition:all 0.5s ease;
+    }
+    .envelope {
+      width:200px; height:120px; background:white; margin:20px auto;
+      display:none; align-items:center; justify-content:center;
+      border:2px solid #ccc; border-radius:10px;
+    }
+    @keyframes fly {
+      0%{transform:translateY(0) rotate(0);opacity:1;}
+      50%{transform:translate(200px,-200px) rotate(45deg);}
+      100%{transform:translate(600px,-400px) rotate(90deg);opacity:0;}
+    }
 
     /* Stage 3 */
-    #stage3 {background:linear-gradient(to top,darkred,red);overflow:hidden;color:white;}
-    .lixi {width:50px;height:80px;background:red;border:2px solid gold;border-radius:5px;position:absolute;top:-100px;cursor:pointer;}
-    #stage3 h2 {text-shadow:0 0 10px yellow,0 0 20px orange;margin-top:20px;}
-    #stage3 button {margin-top:20px;padding:10px 20px;background:gold;border:none;border-radius:5px;cursor:pointer;font-weight:bold;}
-    #resultPaper {width:300px;height:150px;background:white;margin:50px auto;display:none;text-align:center;line-height:150px;font-size:3em;font-weight:bold;border:3px solid gold;border-radius:10px;transition:all 0.5s ease;}
+    #stage3 {background:linear-gradient(to top,darkred,red); overflow:hidden; color:white;}
+    .lixi {
+      width:50px; height:80px; background:red; border:2px solid gold; border-radius:5px;
+      position:absolute; top:-100px; cursor:pointer;
+    }
+    #stage3 h2 {text-shadow:0 0 10px yellow,0 0 20px orange; margin-top:20px;}
+    #stage3 button {
+      margin-top:20px; padding:10px 20px; background:gold; border:none; border-radius:5px;
+      cursor:pointer; font-weight:bold;
+    }
+    #resultPaper {
+      width:300px; height:150px; background:white; margin:50px auto;
+      display:none; text-align:center; line-height:150px; font-size:3em; font-weight:bold;
+      border:3px solid gold; border-radius:10px; transition:all 0.5s ease;
+    }
   </style>
 </head>
 <body>
@@ -68,126 +118,123 @@
     <div id="resultPaper"></div>
     <h2 id="thanksText" style="display:none;">Cảm Ơn Đã Tham Gia Nhaaa !</h2>
   </div>
-  <script>
-    let userName="", userGoal="", chosenLixi="";
+<script>
+  let userName="", userGoal="", chosenLixi="";
 
-    // tạo sao lấp lánh
-    for(let i=0;i<100;i++){
-      const star=document.createElement('div');
-      star.className='star';
-      star.style.left=Math.random()*window.innerWidth+'px';
-      star.style.top=Math.random()*window.innerHeight+'px';
-      document.body.appendChild(star);
+  // tạo sao lấp lánh
+  for(let i=0;i<100;i++){
+    const star=document.createElement('div');
+    star.className='star';
+    star.style.left=Math.random()*window.innerWidth+'px';
+    star.style.top=Math.random()*window.innerHeight+'px';
+    document.body.appendChild(star);
+  }
+
+  // Stage 1
+  document.getElementById('startBtn').onclick=()=>{
+    userName=document.getElementById('nameInput').value.trim();
+    if(userName){
+      document.getElementById('stage1').classList.remove('active');
+      document.getElementById('stage2').classList.add('active');
+      showStage2Text();
     }
+  };
 
-    // Stage 1
-    document.getElementById('startBtn').onclick=()=>{
-      userName=document.getElementById('nameInput').value.trim();
-      if(userName){
-        document.getElementById('stage1').classList.remove('active');
-        document.getElementById('stage2').classList.add('active');
-        showStage2Text();
-      }
-    };
-
-    // Stage 2 text effect
-    function showStage2Text(){
-      const welcome="Chào Mừng 2026 Đã Đến Đây !";
-      const goalMsg=`Năm mới đã đến rồi!\nBây giờ mọi chuyện buồn đã ở quá khứ rồi\nHãy bắt đầu năm mới bằng việc đặt cho bản thân 1 mục tiêu mà ${userName} sẽ cố gắng hoàn thành trong năm 2026!`;
-      let i=0;
-      const interval=setInterval(()=>{
-        document.getElementById('welcomeText').textContent=welcome.slice(0,i);
-        i++;
-        if(i>welcome.length){
-          clearInterval(interval);
-          setTimeout(()=>{
-            document.getElementById('goalText').textContent=goalMsg;
-            document.getElementById('goalSection').style.display='block';
-          },2000);
-        }
-      },100);
-    }
-
-    // Stage 2 goal submit
-    document.getElementById('goalBtn').onclick=()=>{
-      userGoal=document.getElementById('goalInput').value.trim();
-      if(userGoal){
-        const paper=document.getElementById('paper');
-        paper.style.display='flex';
-        paper.textContent=userGoal;
+  // Stage 2 text effect
+  function showStage2Text(){
+    const welcome="Chào Mừng 2026 Đã Đến Đây !";
+    const goalMsg=`Năm mới đã đến rồi!\nBây giờ mọi chuyện buồn đã ở quá khứ rồi\nHãy bắt đầu năm mới bằng việc đặt cho bản thân 1 mục tiêu mà ${userName} sẽ cố gắng hoàn thành trong năm 2026!`;
+    let i=0;
+    const interval=setInterval(()=>{
+      document.getElementById('welcomeText').textContent=welcome.slice(0,i);
+      i++;
+      if(i>welcome.length){
+        clearInterval(interval);
         setTimeout(()=>{
-          paper.style.display='none';
-          const envelope=document.getElementById('envelope');
-          envelope.style.display='flex';
-          envelope.style.animation='fly 5s forwards';
-          setTimeout(()=>{
-            document.getElementById('stage2').classList.remove('active');
-            document.getElementById('stage3').classList.add('active');
-            startLixiRain();
-          },5000);
-        },3000);
+          document.getElementById('goalText').textContent=goalMsg;
+          document.getElementById('goalSection').style.display='block';
+        },2000);
       }
-    };
+    },100);
+  }
 
-    // Stage 3 buttons
-    document.getElementById('yesBtn').onclick=()=>{
-      document.getElementById('yesBtn').style.display='none';
-      document.getElementById('stage3Text').style.display='none';
-      document.getElementById('chooseText').style.display='block';
-      document.getElementById('okBtn').style.display='block';
-    };
-
-    document.getElementById('okBtn').onclick=()=>{
-      document.getElementById('chooseText').style.display='none';
-      document.getElementById('okBtn').style.display='none';
-    };
-
-    // Bao lì xì rơi
-    function startLixiRain(){
-      const stage3=document.getElementById('stage3');
-      for(let i=1;i<=20;i++){
-        const lixi=document.createElement('div');
-        lixi.className='lixi';
-        lixi.dataset.num=i; // số ẩn, không hiển thị
-        stage3.appendChild(lixi);
-        resetLixi(lixi);
-        lixi.onclick=()=>{
-          if(!chosenLixi){
-            chosenLixi=lixi.dataset.num;
-            document.getElementById('resultPaper').style.display='block';
-            document.getElementById('resultPaper').textContent="🎁 "+chosenLixi;
-            document.getElementById('thanksText').style.display='block';
-            // gửi dữ liệu về server
-            fetch('https://server-tet.onrender.com/api/newyear',{
-              method:'POST',
-              headers:{'Content-Type':'application/json'},
-              body:JSON.stringify({name:userName,goal:userGoal,lixi:chosenLixi})
-            });
-          }
-        };
-      }
+  // Stage 2 goal submit
+  document.getElementById('goalBtn').onclick=()=>{
+    userGoal=document.getElementById('goalInput').value.trim();
+    if(userGoal){
+      const paper=document.getElementById('paper');
+      paper.style.display='flex';
+      paper.textContent=userGoal;
+      setTimeout(()=>{
+        paper.style.display='none';
+        const envelope=document.getElementById('envelope');
+        envelope.style.display='flex';
+        envelope.innerHTML=`<div style="font-weight:bold;color:darkblue;">Điều ước của ${userName}</div>`;
+        envelope.style.animation='fly 5s forwards';
+        setTimeout(()=>{
+          document.getElementById('stage2').classList.remove('active');
+          document.getElementById('stage3').classList.add('active');
+          startLixiRain();
+        },5000);
+      },3000);
     }
+  };
 
-    function resetLixi(lixi){
-      lixi.style.left=Math.random()*window.innerWidth+'px';
-      lixi.style.top='-100px';
-      fall(lixi);
-    }
+  // Stage 3 buttons
+  document.getElementById('yesBtn').onclick=()=>{
+    document.getElementById('yesBtn').style.display='none';
+    document.getElementById('stage3Text').style.display='none';
+    document.getElementById('chooseText').style.display='block';
+    document.getElementById('okBtn').style.display='block';
+  };
 
-    function fall(lixi){
-      let top=-100;
-      const speed=2+Math.random()*3;
-      function animate(){
-        top+=speed;
-        lixi.style.top=top+'px';
-        if(top<window.innerHeight){
-          requestAnimationFrame(animate);
-        }else{
-          resetLixi(lixi);
+  document.getElementById('okBtn').onclick=()=>{
+    document.getElementById('chooseText').style.display='none';
+    document.getElementById('okBtn').style.display='none';
+  };
+
+  // Bao lì xì rơi
+  function startLixiRain(){
+    const stage3=document.getElementById('stage3');
+    for(let i=1;i<=20;i++){
+      const lixi=document.createElement('div');
+      lixi.className='lixi';
+      lixi.dataset.num=i; // số ẩn, không hiển thị
+      stage3.appendChild(lixi);
+      resetLixi(lixi);
+      lixi.onclick=()=>{
+        if(!chosenLixi){
+          chosenLixi=lixi.dataset.num;
+          const result=document.getElementById('resultPaper');
+          result.style.display='block';
+          result.textContent="🎁 "+chosenLixi;
+          result.style.animation="pulse 1s infinite";
+          document.getElementById('thanksText').style.display='block';
         }
-      }
-      animate();
+      };
     }
-  </script>
+  }
+
+  function resetLixi(lixi){
+    lixi.style.left=Math.random()*window.innerWidth+'px';
+    lixi.style.top='-100px';
+    fall(lixi);
+  }
+
+  function fall(lixi){
+    let top=-100;
+    const speed=2+Math.random()*3;
+    function animate(){
+      top+=speed;
+      lixi.style.top=top+'px';
+      if(top<window.innerHeight){
+        requestAnimationFrame(animate);
+      }else{
+        resetLixi(lixi);
+      }
+    }
+    animate();
+  }
+</script>
 </body>
 </html>
