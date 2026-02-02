@@ -121,7 +121,7 @@
     <h2 id="thanksText" style="display:none;">Cảm Ơn Đã Tham Gia Nhaaa !</h2>
   </div>
 # phần 2 js
-  <script>
+ <script>
   let userName="", userGoal="", chosenLixi="";
 
   // Tạo sao lấp lánh
@@ -230,7 +230,7 @@
           chosenLixi=lixi.dataset.num;
           const result=document.getElementById('resultPaper');
           result.style.display='flex';   // căn giữa bằng flex
-          result.textContent="🎁 "+chosenLixi;
+          result.textContent=chosenLixi; // chỉ hiện số, không icon
           document.getElementById('thanksText').style.display='block';
 
           // Gửi dữ liệu về server khi tham gia xong
