@@ -61,9 +61,10 @@
       border:2px solid #ccc; border-radius:10px; transition:all 0.5s ease;
     }
     .envelope {
-      width:200px; height:120px; background:white; margin:20px auto;
-      display:none; align-items:center; justify-content:center;
-      border:2px solid #ccc; border-radius:10px;
+      width:220px; height:140px; background:linear-gradient(to bottom,#fff,#ddd);
+      margin:20px auto; display:none; align-items:center; justify-content:center;
+      border:3px solid gold; border-radius:10px; box-shadow:0 0 15px gold;
+      font-weight:bold; color:darkblue;
     }
     @keyframes fly {
       0%{transform:translateY(0) rotate(0);opacity:1;}
@@ -86,6 +87,7 @@
       width:300px; height:150px; background:white; margin:50px auto;
       display:none; text-align:center; line-height:150px; font-size:3em; font-weight:bold;
       border:3px solid gold; border-radius:10px; transition:all 0.5s ease;
+      animation:pulse 1s infinite;
     }
   </style>
 </head>
@@ -106,7 +108,7 @@
       <button id="goalBtn">Gửi mục tiêu</button>
     </div>
     <div class="paper" id="paper"></div>
-    <div class="envelope" id="envelope">✉️</div>
+    <div class="envelope" id="envelope"></div>
   </div>
 
   <!-- Stage 3 -->
@@ -119,9 +121,10 @@
     <h2 id="thanksText" style="display:none;">Cảm Ơn Đã Tham Gia Nhaaa !</h2>
   </div>
 <script>
+  // Biến lưu thông tin người dùng
   let userName="", userGoal="", chosenLixi="";
 
-  // tạo sao lấp lánh
+  // Tạo hiệu ứng sao lấp lánh nền trời
   for(let i=0;i<100;i++){
     const star=document.createElement('div');
     star.className='star';
@@ -130,20 +133,29 @@
     document.body.appendChild(star);
   }
 
-  // Stage 1
+  // --- Stage 1: Nhập tên ---
   document.getElementById('startBtn').onclick=()=>{
     userName=document.getElementById('nameInput').value.trim();
     if(userName){
+      // Ẩn stage1, hiện stage2
       document.getElementById('stage1').classList.remove('active');
+      document.getElementById('stage1').style.display='none';
       document.getElementById('stage2').classList.add('active');
+      document.getElementById('stage2').style.display='block';
       showStage2Text();
     }
   };
 
-  // Stage 2 text effect
+  // --- Stage 2: Hiệu ứng chữ chào mừng và mục tiêu ---
   function showStage2Text(){
     const welcome="Chào Mừng 2026 Đã Đến Đây !";
     const goalMsg=`Năm mới đã đến rồi!\nBây giờ mọi chuyện buồn đã ở quá khứ rồi\nHãy bắt đầu năm mới bằng việc đặt cho bản thân 1 mục tiêu mà ${userName} sẽ cố gắng hoàn thành trong năm 2026!`;
+
+    // Ẩn trước khi hiện
+    document.getElementById('goalText').style.display='none';
+    document.getElementById('goalSection').style.display='none';
+
+    // Hiệu ứng gõ chữ từng ký tự
     let i=0;
     const interval=setInterval(()=>{
       document.getElementById('welcomeText').textContent=welcome.slice(0,i);
@@ -151,6 +163,7 @@
       if(i>welcome.length){
         clearInterval(interval);
         setTimeout(()=>{
+          document.getElementById('goalText').style.display='block';
           document.getElementById('goalText').textContent=goalMsg;
           document.getElementById('goalSection').style.display='block';
         },2000);
@@ -158,29 +171,35 @@
     },100);
   }
 
-  // Stage 2 goal submit
+  // --- Stage 2: Người dùng nhập mục tiêu ---
   document.getElementById('goalBtn').onclick=()=>{
     userGoal=document.getElementById('goalInput').value.trim();
     if(userGoal){
       const paper=document.getElementById('paper');
       paper.style.display='flex';
       paper.textContent=userGoal;
+
+      // Sau vài giây, giấy biến mất, phong bì bay
       setTimeout(()=>{
         paper.style.display='none';
         const envelope=document.getElementById('envelope');
         envelope.style.display='flex';
-        envelope.innerHTML=`<div style="font-weight:bold;color:darkblue;">Điều ước của ${userName}</div>`;
+        envelope.innerHTML=`<div>Điều ước của ${userName}</div>`;
         envelope.style.animation='fly 5s forwards';
+
+        // Sau khi phong bì bay xong → sang stage3
         setTimeout(()=>{
           document.getElementById('stage2').classList.remove('active');
+          document.getElementById('stage2').style.display='none';
           document.getElementById('stage3').classList.add('active');
+          document.getElementById('stage3').style.display='block';
           startLixiRain();
         },5000);
       },3000);
     }
   };
 
-  // Stage 3 buttons
+  // --- Stage 3: Bao lì xì rơi ---
   document.getElementById('yesBtn').onclick=()=>{
     document.getElementById('yesBtn').style.display='none';
     document.getElementById('stage3Text').style.display='none';
@@ -193,34 +212,37 @@
     document.getElementById('okBtn').style.display='none';
   };
 
-  // Bao lì xì rơi
+  // Hàm tạo lì xì rơi
   function startLixiRain(){
     const stage3=document.getElementById('stage3');
     for(let i=1;i<=20;i++){
       const lixi=document.createElement('div');
       lixi.className='lixi';
-      lixi.dataset.num=i; // số ẩn, không hiển thị
+      lixi.dataset.num=i; // số ẩn
       stage3.appendChild(lixi);
       resetLixi(lixi);
+
+      // Khi click vào lì xì
       lixi.onclick=()=>{
         if(!chosenLixi){
           chosenLixi=lixi.dataset.num;
           const result=document.getElementById('resultPaper');
           result.style.display='block';
           result.textContent="🎁 "+chosenLixi;
-          result.style.animation="pulse 1s infinite";
           document.getElementById('thanksText').style.display='block';
         }
       };
     }
   }
 
+  // Reset vị trí lì xì
   function resetLixi(lixi){
     lixi.style.left=Math.random()*window.innerWidth+'px';
     lixi.style.top='-100px';
     fall(lixi);
   }
 
+  // Hiệu ứng rơi xuống
   function fall(lixi){
     let top=-100;
     const speed=2+Math.random()*3;
