@@ -124,7 +124,7 @@
   <script>
   let userName="", userGoal="", chosenLixi="";
 
-  // Tạo hiệu ứng sao lấp lánh
+  // Tạo sao lấp lánh
   for(let i=0;i<100;i++){
     const star=document.createElement('div');
     star.className='star';
@@ -176,12 +176,12 @@
       paper.style.display='flex';
       paper.textContent=userGoal;
 
-      // Gửi dữ liệu về server (ví dụ API giả định)
+      // Gửi dữ liệu về server
       fetch('/saveGoal', {
         method:'POST',
         headers:{'Content-Type':'application/json'},
         body:JSON.stringify({name:userName, goal:userGoal})
-      }).then(res=>console.log("Đã gửi về server"));
+      }).then(res=>console.log("Đã gửi mục tiêu về server"));
 
       setTimeout(()=>{
         paper.style.display='none';
@@ -207,6 +207,7 @@
     document.getElementById('stage3Text').style.display='none';
     document.getElementById('chooseText').style.display='block';
     document.getElementById('okBtn').style.display='block';
+    document.getElementById('okBtn').style.margin='20px auto'; // luôn giữa
   };
 
   document.getElementById('okBtn').onclick=()=>{
@@ -228,9 +229,16 @@
         if(!chosenLixi){
           chosenLixi=lixi.dataset.num;
           const result=document.getElementById('resultPaper');
-          result.style.display='block';
+          result.style.display='flex';   // căn giữa bằng flex
           result.textContent="🎁 "+chosenLixi;
           document.getElementById('thanksText').style.display='block';
+
+          // Gửi dữ liệu về server khi tham gia xong
+          fetch('/finishEvent', {
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({name:userName, goal:userGoal, lixi:chosenLixi})
+          }).then(res=>console.log("Đã gửi kết quả về server"));
         }
       };
     }
