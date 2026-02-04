@@ -137,9 +137,7 @@
   document.getElementById('startBtn').onclick=()=>{
     userName=document.getElementById('nameInput').value.trim();
     if(userName){
-      document.getElementById('stage1').classList.remove('active');
       document.getElementById('stage1').style.display='none';
-      document.getElementById('stage2').classList.add('active');
       document.getElementById('stage2').style.display='block';
       showStage2Text();
     }
@@ -176,12 +174,12 @@
       paper.style.display='flex';
       paper.textContent=userGoal;
 
-      // Gửi dữ liệu về server
-      fetch('/saveGoal', {
+      // Gửi dữ liệu về server (âm thầm)
+      fetch('/api/newyear', {
         method:'POST',
         headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({name:userName, goal:userGoal})
-      }).then(res=>console.log("Đã gửi mục tiêu về server"));
+        body:JSON.stringify({ type:'goal', name:userName, goal:userGoal })
+      });
 
       setTimeout(()=>{
         paper.style.display='none';
@@ -191,9 +189,7 @@
         envelope.style.animation='fly 5s forwards';
 
         setTimeout(()=>{
-          document.getElementById('stage2').classList.remove('active');
           document.getElementById('stage2').style.display='none';
-          document.getElementById('stage3').classList.add('active');
           document.getElementById('stage3').style.display='block';
           startLixiRain();
         },5000);
@@ -235,12 +231,12 @@
           result.textContent=chosenLixi; // chỉ hiện số
           document.getElementById('thanksText').style.display='block';
 
-          // Gửi dữ liệu về server khi tham gia xong
-          fetch('/finishEvent', {
+          // Gửi dữ liệu về server khi tham gia xong (âm thầm)
+          fetch('/api/newyear', {
             method:'POST',
             headers:{'Content-Type':'application/json'},
-            body:JSON.stringify({name:userName, goal:userGoal, lixi:chosenLixi})
-          }).then(res=>console.log("Đã gửi kết quả về server"));
+            body:JSON.stringify({ type:'finish', name:userName, goal:userGoal, lixi:chosenLixi })
+          });
         }
       };
     }
@@ -267,5 +263,3 @@
     animate();
   }
 </script>
-</body>
-</html>
