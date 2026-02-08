@@ -121,6 +121,55 @@
     <h2 id="thanksText" style="display:none;">Cảm Ơn Đã Tham Gia Nhaaa !</h2>
   </div>
 # phần 2 js
+<style>
+  /* Sao bay qua bay lại */
+.star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: white;
+  animation: moveStar 10s linear infinite;
+}
+@keyframes moveStar {
+  from { transform: translateX(0); }
+  to { transform: translateX(100vw); }
+}
+
+/* Pháo hoa */
+.firework {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.8;
+  animation: explode 1s ease-out forwards;
+}
+@keyframes explode {
+  0% { transform: scale(0); opacity: 1; }
+  100% { transform: scale(3); opacity: 0; }
+}
+
+/* Hiệu ứng viền nút */
+.button-glow {
+  position: relative;
+  overflow: hidden;
+}
+.button-glow::before,
+.button-glow::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, red, yellow, lime, cyan, blue, magenta);
+  animation: borderRun 2s linear infinite;
+}
+.button-glow::before { top: 0; left: -100%; }
+.button-glow::after { bottom: 0; left: 100%; }
+
+@keyframes borderRun {
+  0% { left: -100%; }
+  50% { left: 0; }
+  100% { left: 100%; }
+}
+<style>
 <script>
   let userName="", userGoal="", chosenLixi="";
 
@@ -305,5 +354,3 @@
     animate();
   }
 </script>
-
-
