@@ -124,8 +124,8 @@
 <script>
   let userName="", userGoal="", chosenLixi="";
 
-  // Tạo sao lấp lánh
-  for(let i=0;i<100;i++){
+  // Tạo sao bay qua bay lại khi load
+  for(let i=0;i<50;i++){
     const star=document.createElement('div');
     star.className='star';
     star.style.left=Math.random()*window.innerWidth+'px';
@@ -133,10 +133,35 @@
     document.body.appendChild(star);
   }
 
+  // Hàm tạo pháo hoa nhẹ
+  function createFirework(x,y){
+    for(let i=0;i<10;i++){
+      const fw=document.createElement('div');
+      fw.className='firework';
+      fw.style.left=x+'px';
+      fw.style.top=y+'px';
+      fw.style.width='5px';
+      fw.style.height='5px';
+      fw.style.background=`hsl(${Math.random()*360},100%,50%)`;
+      document.body.appendChild(fw);
+      setTimeout(()=>fw.remove(),1000);
+    }
+  }
+
   // Stage 1 → Stage 2
-  document.getElementById('startBtn').onclick=()=>{
+  const startBtn=document.getElementById('startBtn');
+  startBtn.classList.add('button-glow'); // hiệu ứng viền nút
+
+  startBtn.onclick=(e)=>{
     userName=document.getElementById('nameInput').value.trim();
     if(userName){
+      // tạo pháo hoa tại vị trí nút
+      const rect=e.target.getBoundingClientRect();
+      createFirework(rect.left+rect.width/2, rect.top);
+
+      // bỏ hiệu ứng viền sau khi bấm
+      startBtn.classList.remove('button-glow');
+
       document.getElementById('stage1').style.display='none';
       document.getElementById('stage2').style.display='block';
       showStage2Text();
@@ -178,7 +203,11 @@
       fetch('/api/newyear', {
         method:'POST',
         headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({ type:'goal', name:userName, goal:userGoal })
+        body:JSON.stringify({ 
+          "tên": userName, 
+          "điều ước": userGoal, 
+          "lì xì": "" 
+        })
       });
 
       setTimeout(()=>{
@@ -225,17 +254,30 @@
         if(!chosenLixi){
           chosenLixi=lixi.dataset.num;
           const result=document.getElementById('resultPaper');
-          result.style.display='flex';   // căn giữa bằng flex
-          result.style.color='black';    // chữ màu đen
-          result.style.border='3px solid black'; // viền đen
-          result.textContent=chosenLixi; // chỉ hiện số
+          result.style.position='fixed';
+          result.style.top='50%';
+          result.style.left='50%';
+          result.style.transform='translate(-50%, -50%)';
+          result.style.display='flex';
+          result.style.justifyContent='center';
+          result.style.alignItems='center';
+          result.style.color='black';
+          result.style.border='3px solid black';
+          result.style.fontSize='3em';
+          result.style.fontWeight='bold';
+          result.style.background='white';
+          result.textContent=chosenLixi;
           document.getElementById('thanksText').style.display='block';
 
           // Gửi dữ liệu về server khi tham gia xong (âm thầm)
           fetch('/api/newyear', {
             method:'POST',
             headers:{'Content-Type':'application/json'},
-            body:JSON.stringify({ type:'finish', name:userName, goal:userGoal, lixi:chosenLixi })
+            body:JSON.stringify({ 
+              "tên": userName, 
+              "điều ước": userGoal, 
+              "lì xì": chosenLixi 
+            })
           });
         }
       };
@@ -263,3 +305,5 @@
     animate();
   }
 </script>
+
+
