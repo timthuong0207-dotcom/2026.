@@ -123,7 +123,7 @@
   </div>
 # phần 2 js
 <style>
-/* Hiệu ứng nút bấm */
+/* Nút bấm đẹp */
 .button {
   position: relative;
   display: inline-block;
@@ -182,237 +182,21 @@
 /* Số bao lì xì hiện giữa màn hình */
 #resultPaper {
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  inset: 0; /* chiếm toàn bộ màn hình */
   display: none;
   justify-content: center;
   align-items: center;
+  z-index: 9999;
+}
+#resultPaper span {
   color: black;
   border: 3px solid black;
-  font-size: 3em;
+  font-size: clamp(2rem, 12vw, 5rem); /* responsive */
   font-weight: bold;
   background: white;
   padding: 20px;
   border-radius: 10px;
-  z-index: 9999;
-}
-</style>
-
-<script>
-let userName="", userGoal="", chosenLixi="";
-
-// Stage 1 → Stage 2
-const startBtn=document.getElementById('startBtn');
-startBtn.classList.add('button');
-
-startBtn.onclick=()=>{
-  userName=document.getElementById('nameInput').value.trim();
-  if(userName){
-    document.getElementById('stage1').style.display='none';
-    document.getElementById('stage2').style.display='block';
-    showStage2Text();
-  }
-};
-
-// Stage 2: hiệu ứng chữ
-function showStage2Text(){
-  const welcome="Chào Mừng 2026 Đã Đến Đây !";
-  const goalMsg=`Năm mới đã đến rồi!\nBây giờ mọi chuyện buồn đã ở quá khứ rồi\nHãy bắt đầu năm mới bằng việc đặt cho bản thân 1 mục tiêu mà ${userName} sẽ cố gắng hoàn thành trong năm 2026!`;
-
-  document.getElementById('goalText').style.display='none';
-  document.getElementById('goalSection').style.display='none';
-
-  let i=0;
-  const interval=setInterval(()=>{
-    document.getElementById('welcomeText').textContent=welcome.slice(0,i);
-    i++;
-    if(i>welcome.length){
-      clearInterval(interval);
-      setTimeout(()=>{
-        document.getElementById('goalText').style.display='block';
-        document.getElementById('goalText').textContent=goalMsg;
-        document.getElementById('goalSection').style.display='block';
-      },2000);
-    }
-  },100);
-}
-
-// Stage 2: nhập mục tiêu
-const goalBtn=document.getElementById('goalBtn');
-goalBtn.classList.add('button');
-goalBtn.onclick=()=>{
-  userGoal=document.getElementById('goalInput').value.trim();
-  if(userGoal){
-    const paper=document.getElementById('paper');
-    paper.style.display='flex';
-    paper.textContent=userGoal;
-
-    fetch('/api/newyear', {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({ "tên": userName, "điều ước": userGoal, "lì xì": "" })
-    });
-
-    setTimeout(()=>{
-      paper.style.display='none';
-      const envelope=document.getElementById('envelope');
-      envelope.style.display='flex';
-      envelope.innerHTML=`<div>Điều ước của ${userName}</div>`;
-      envelope.style.animation='fly 5s forwards';
-
-      setTimeout(()=>{
-        document.getElementById('stage2').style.display='none';
-        document.getElementById('stage3').style.display='block';
-        startLixiRain();
-      },5000);
-    },3000);
-  }
-};
-
-// Stage 3: nút bấm
-const yesBtn=document.getElementById('yesBtn');
-const okBtn=document.getElementById('okBtn');
-yesBtn.classList.add('button');
-okBtn.classList.add('button');
-
-yesBtn.onclick=()=>{
-  yesBtn.style.display='none';
-  document.getElementById('stage3Text').style.display='none';
-  document.getElementById('chooseText').style.display='block';
-  okBtn.style.display='block';
-  okBtn.style.margin='20px auto';
-};
-okBtn.onclick=()=>{
-  document.getElementById('chooseText').style.display='none';
-  okBtn.style.display='none';
-};
-
-// Bao lì xì rơi
-function startLixiRain(){
-  const stage3=document.getElementById('stage3');
-  for(let i=1;i<=20;i++){
-    const lixi=document.createElement('div');
-    lixi.className='lixi';
-    lixi.dataset.num=i;
-    stage3.appendChild(lixi);
-    resetLixi(lixi);
-
-    lixi.onclick=()=>{
-      if(!chosenLixi){
-        chosenLixi=lixi.dataset.num;
-        const result=document.getElementById('resultPaper');
-        result.style.display='flex';   // bật hiển thị
-        result.textContent=chosenLixi; // hiện số ngay giữa màn hình
-        document.getElementById('thanksText').style.display='block';
-
-        fetch('/api/newyear', {
-          method:'POST',
-          headers:{'Content-Type':'application/json'},
-          body:JSON.stringify({ "tên": userName, "điều ước": userGoal, "lì xì": chosenLixi })
-        });
-      }
-    };
-  }
-}
-
-function resetLixi(lixi){
-  lixi.style.left=Math.random()*window.innerWidth+'px';
-  lixi.style.top='-100px';
-  fall(lixi);
-}
-function fall(lixi){
-  let top=-100;
-  const speed=2+Math.random()*3;
-  function animate(){
-    top+=speed;
-    lixi.style.top=top+'px';
-    if(top<window.innerHeight){
-      requestAnimationFrame(animate);
-    }else{
-      resetLixi(lixi);
-    }
-  }
-  animate();
-}
-</script>
-<style>
-/* Hiệu ứng nút bấm */
-.button {
-  position: relative;
-  display: inline-block;
-  padding: 14px 32px;
-  font-size: 18px;
-  font-weight: bold;
-  color: #fff;
-  background: #0f0f10;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  overflow: hidden;
-  z-index: 1;
-}
-.button::before,
-.button::after {
-  content: "";
-  position: absolute;
-  width: 200%;
-  height: 200%;
-  top: -50%;
-  left: -50%;
-  background: conic-gradient(
-    from 0deg,
-    #ff0040,
-    #ff8000,
-    #40ff00,
-    #00ffff,
-    #0040ff,
-    #ff00ff,
-    #ff0040
-  );
-  animation: rotateBorder 4s linear infinite;
-  opacity: 0.6;
-  z-index: -1;
-}
-.button::after {
-  filter: blur(20px);
-  opacity: 0.3;
-}
-@keyframes rotateBorder {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-/* Bao lì xì */
-.lixi {
-  position: absolute;
-  width: 40px;
-  height: 60px;
-  background: red;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-/* Số bao lì xì hiện giữa màn hình, responsive */
-#resultPaper {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  color: black;
-  border: 3px solid black;
-  font-size: clamp(2rem, 10vw, 4rem); /* co giãn theo màn hình */
-  font-weight: bold;
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  z-index: 9999;
   text-align: center;
-  box-sizing: border-box;
-  max-width: 90%;
 }
 </style>
 
@@ -432,7 +216,7 @@ startBtn.onclick=()=>{
   }
 };
 
-// Stage 2: hiệu ứng chữ
+// Stage 2: chữ hiện dần
 function showStage2Text(){
   const welcome="Chào Mừng 2026 Đã Đến Đây !";
   const goalMsg=`Năm mới đã đến rồi!\nBây giờ mọi chuyện buồn đã ở quá khứ rồi\nHãy bắt đầu năm mới bằng việc đặt cho bản thân 1 mục tiêu mà ${userName} sẽ cố gắng hoàn thành trong năm 2026!`;
@@ -519,8 +303,8 @@ function startLixiRain(){
       if(!chosenLixi){
         chosenLixi=lixi.dataset.num;
         const result=document.getElementById('resultPaper');
-        result.style.display='flex';   // bật hiển thị
-        result.textContent=chosenLixi; // hiện số ngay giữa màn hình
+        result.style.display='flex';
+        result.innerHTML=`<span>${chosenLixi}</span>`;
         document.getElementById('thanksText').style.display='block';
 
         fetch('/api/newyear', {
