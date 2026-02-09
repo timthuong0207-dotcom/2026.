@@ -178,6 +178,25 @@
   border-radius: 6px;
   cursor: pointer;
 }
+
+/* Số bao lì xì hiện giữa màn hình */
+#resultPaper {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  color: black;
+  border: 3px solid black;
+  font-size: 3em;
+  font-weight: bold;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  z-index: 9999;
+}
 </style>
 
 <script>
@@ -220,8 +239,9 @@ function showStage2Text(){
 }
 
 // Stage 2: nhập mục tiêu
-document.getElementById('goalBtn').classList.add('button');
-document.getElementById('goalBtn').onclick=()=>{
+const goalBtn=document.getElementById('goalBtn');
+goalBtn.classList.add('button');
+goalBtn.onclick=()=>{
   userGoal=document.getElementById('goalInput').value.trim();
   if(userGoal){
     const paper=document.getElementById('paper');
@@ -251,19 +271,21 @@ document.getElementById('goalBtn').onclick=()=>{
 };
 
 // Stage 3: nút bấm
-document.getElementById('yesBtn').classList.add('button');
-document.getElementById('okBtn').classList.add('button');
+const yesBtn=document.getElementById('yesBtn');
+const okBtn=document.getElementById('okBtn');
+yesBtn.classList.add('button');
+okBtn.classList.add('button');
 
-document.getElementById('yesBtn').onclick=()=>{
-  document.getElementById('yesBtn').style.display='none';
+yesBtn.onclick=()=>{
+  yesBtn.style.display='none';
   document.getElementById('stage3Text').style.display='none';
   document.getElementById('chooseText').style.display='block';
-  document.getElementById('okBtn').style.display='block';
-  document.getElementById('okBtn').style.margin='20px auto';
+  okBtn.style.display='block';
+  okBtn.style.margin='20px auto';
 };
-document.getElementById('okBtn').onclick=()=>{
+okBtn.onclick=()=>{
   document.getElementById('chooseText').style.display='none';
-  document.getElementById('okBtn').style.display='none';
+  okBtn.style.display='none';
 };
 
 // Bao lì xì rơi
@@ -280,19 +302,8 @@ function startLixiRain(){
       if(!chosenLixi){
         chosenLixi=lixi.dataset.num;
         const result=document.getElementById('resultPaper');
-        result.style.position='fixed';
-        result.style.top='50%';
-        result.style.left='50%';
-        result.style.transform='translate(-50%, -50%)';
-        result.style.display='flex';
-        result.style.justifyContent='center';
-        result.style.alignItems='center';
-        result.style.color='black';
-        result.style.border='3px solid black';
-        result.style.fontSize='3em';
-        result.style.fontWeight='bold';
-        result.style.background='white';
-        result.textContent=chosenLixi;
+        result.style.display='flex';   // bật hiển thị
+        result.textContent=chosenLixi; // hiện số ngay giữa màn hình
         document.getElementById('thanksText').style.display='block';
 
         fetch('/api/newyear', {
